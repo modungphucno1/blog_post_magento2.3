@@ -1,0 +1,94 @@
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="smart_blog_post" resource="default" engine="innodb" comment="Smart Blog Post Table">
+        <column xsi:type="int" name="post_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Post ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="255" comment="Post Name"/>
+        <column xsi:type="mediumtext" name="short_description" nullable="false" comment="Post Short Description"/>
+        <column xsi:type="text" name="post_content" nullable="false" comment="Post Content"/>
+        <column xsi:type="varchar" name="thumbnail" nullable="true" length="255" comment="Thumbnail Image"/>
+        <column xsi:type="varchar" name="gallery" nullable="true" length="255" comment="Gallery"/>
+        <column xsi:type="int" name="status" nullable="true" default="1"
+                comment="Status"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="Post URL Key"/>
+        <column xsi:type="timestamp" name="publish_date_from" on_update="false" nullable="true" default="CURRENT_TIMESTAMP"
+                comment="Publish Date From"/>
+        <column xsi:type="timestamp" name="publish_date_to" nullable="true" default="CURRENT_TIMESTAMP"
+                comment="Publish Date To"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="post_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="unique">
+            <column name="post_id"/>
+            <column name="name"/>
+        </constraint>
+        <index referenceId="smart_blog_post" indexType="btree">
+            <column name="post_id"/>
+        </index>
+    </table>
+    <table name="smart_blog_category" resource="default" engine="innodb" comment="Smart Blog Category Table">
+        <column xsi:type="int" name="category_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Post ID"/>
+        <column xsi:type="varchar" name="category_name" nullable="false" length="255" comment="Category Name"/>
+        <column xsi:type="varchar" name="url_key" nullable="true" length="255" comment="Category URL Key"/>
+        <column xsi:type="int" name="parent_id" nullable="true" comment="Parent ID"/>
+        <column xsi:type="int" name="level" nullable="true" comment="Level"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="category_id"/>
+        </constraint>
+        <index referenceId="smart_blog_category" indexType="btree">
+            <column name="category_id"/>
+        </index>
+    </table>
+    <table name="smart_blog_tag" resource="default" engine="innodb" comment="Smart Blog Tag Table">
+        <column xsi:type="int" name="tag_id" padding="10" unsigned="true" nullable="false" identity="true"
+                comment="Tag ID"/>
+        <column xsi:type="varchar" name="tag" nullable="false" length="255" comment="Tag"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="tag_id"/>
+        </constraint>
+        <index referenceId="smart_blog_tag" indexType="btree">
+            <column name="tag_id"/>
+        </index>
+    </table>
+    <table name="smart_blog_post_tag" resource="default" engine="innodb" comment="Smart Blog Post Tag Table">
+        <column xsi:type="int" name="post_id" padding="10" nullable="false" unsigned="true"
+                comment="Post ID"/>
+        <column xsi:type="int" name="tag_id"  padding="10" nullable="false" unsigned="true"
+                comment="Tag ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="tag_id"/>
+            <column name="post_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="SmartOSC_Blog_Post_Tag_Blog_Tag" table="smart_blog_post_tag"
+                    column="tag_id" referenceTable="smart_blog_tag" referenceColumn="tag_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="SmartOSC_Blog_Post_Tag_Blog_Post" table="smart_blog_post_tag"
+                    column="post_id" referenceTable="smart_blog_post" referenceColumn="post_id"
+                    onDelete="CASCADE"/>
+        <index referenceId="smart_blog_post_tag" indexType="btree">
+        <column name="post_id"/>
+        <column name="tag_id"/>
+        </index>
+    </table>
+    <table name="smart_blog_post_category" resource="default" engine="innodb" comment="Smart Blog Post Category Table">
+        <column xsi:type="int" name="post_id" padding="10" nullable="false" unsigned="true"
+                comment="Post ID"/>
+        <column xsi:type="int" name="category_id" padding="10" nullable="false" unsigned="true"
+                comment="Category ID"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="post_id"/>
+            <column name="category_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="SmartOSC_Blog_Post_Category_Blog_Tag" table="smart_blog_post_category"
+                    column="category_id" referenceTable="smart_blog_category" referenceColumn="category_id"
+                    onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="SmartOSC_Blog_Post_Category_Blog_Post" table="smart_blog_post_tag"
+                    column="post_id" referenceTable="smart_blog_post" referenceColumn="post_id"
+                    onDelete="CASCADE"/>
+        <index referenceId="smart_blog_post_tag" indexType="btree">
+        <column name="post_id"/>
+        <column name="category_id"/>
+        </index>
+    </table>
+</schema>

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="SmartOSC_Blog::blog_post" title="Smart Blog Post">
+                    <resource id="SmartOSC_Blog::post" title="Post">
+                        <resource id="SmartOSC_Blog::all_posts" title="All Posts" translate="title" />
+                        <resource id="SmartOSC_Blog::post_create" title="Create Post" translate="title" />
+                        <resource id="SmartOSC_Blog::post_update" title="Update Post" translate="title" />
+                        <resource id="SmartOSC_Blog::post_delete" title="Delete Post" translate="title" />
+                    </resource>
+                    <resource id="SmartOSC_Blog::category" title="Category">
+                        <resource id="SmartOSC_Blog::all_categories" title="All Categories" translate="title" />
+                        <resource id="SmartOSC_Blog::category_create" title="Create Category" translate="title" />
+                        <resource id="SmartOSC_Blog::category_update" title="Update Category" translate="title" />
+                        <resource id="SmartOSC_Blog::category_delete" title="Delete Category" translate="title" />
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>

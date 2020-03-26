@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="SmartOSC_LearningUnit::fake_facebook" title="Fake Facebook" module="SmartOSC_LearningUnit" sortOrder="1" resource="SmartOSC_LearningUnit::fake_facebook"/>
+        <add id="SmartOSC_LearningUnit::fb_post" title="Facebook Post" module="SmartOSC_LearningUnit" parent="SmartOSC_LearningUnit::fake_facebook" sortOrder="100" action="smartosc/facebook/post" resource="SmartOSC_LearningUnit::fb_post"/>
+        <add id="SmartOSC_LearningUnit::fb_user" title="Facebook User" module="SmartOSC_LearningUnit" parent="SmartOSC_LearningUnit::fake_facebook" sortOrder="101" action="smartosc/facebook/user" resource="SmartOSC_LearningUnit::fb_user"/>
+    </menu>
+</config>
