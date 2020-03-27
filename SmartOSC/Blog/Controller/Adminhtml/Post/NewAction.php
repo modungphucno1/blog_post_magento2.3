@@ -6,7 +6,7 @@ namespace SmartOSC\Blog\Controller\Adminhtml\Post;
 
 use Magento\Framework\App\Action\HttpGetActionInterface;
 
-class NewAction extends \Magento\Cms\Controller\Adminhtml\Block implements HttpGetActionInterface
+class NewAction extends \SmartOSC\Blog\Controller\Adminhtml\Post implements HttpGetActionInterface
 {
     /**
      * @var \Magento\Backend\Model\View\Result\ForwardFactory

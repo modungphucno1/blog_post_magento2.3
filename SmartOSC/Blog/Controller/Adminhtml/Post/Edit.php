@@ -3,66 +3,72 @@
 namespace SmartOSC\Blog\Controller\Adminhtml\Post;
 
 use Magento\Backend\App\Action\Context;
-use Magento\Cms\Controller\Adminhtml\Block;
-use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Backend\Model\View\Result\Page;
+use Magento\Backend\Model\View\Result\Redirect;
 use Magento\Framework\Registry;
 use Magento\Framework\View\Result\PageFactory;
+use SmartOSC\Blog\Controller\Adminhtml\Post;
+use SmartOSC\Blog\Model\PostFactory;
 
-class Edit extends Block implements HttpGetActionInterface
+class Edit extends Post
 {
     /**
+     * Page factory
+     *
      * @var PageFactory
      */
-    protected $resultPageFactory;
+    public $resultPageFactory;
 
     /**
+     * Edit constructor.
+     *
      * @param Context $context
-     * @param Registry $coreRegistry
+     * @param Registry $registry
+     * @param PostFactory $postFactory
      * @param PageFactory $resultPageFactory
      */
     public function __construct(
         Context $context,
-        Registry $coreRegistry,
+        Registry $registry,
+        PostFactory $postFactory,
         PageFactory $resultPageFactory
     ) {
         $this->resultPageFactory = $resultPageFactory;
-        parent::__construct($context, $coreRegistry);
+
+        parent::__construct($postFactory, $registry, $context);
     }
 
     /**
-     * Edit CMS block
-     *
-     * @return \Magento\Framework\Controller\ResultInterface
-     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @return \Magento\Backend\Model\View\Result\Page|Redirect|Page
      */
     public function execute()
     {
-        // 1. Get ID and create model
-        $id = $this->getRequest()->getParam('post_id');
-        $model = $this->_objectManager->create(\Magento\Cms\Model\Block::class);
+        /** @var \Mageplaza\Blog\Model\Post $post */
+        $post      = $this->initPost();
+        $duplicate = $this->getRequest()->getParam('duplicate');
 
-        // 2. Initial checking
-        if ($id) {
-            $model->load($id);
-            if (!$model->getId()) {
-                $this->messageManager->addErrorMessage(__('This block no longer exists.'));
-                /** @var \Magento\Backend\Model\View\Result\Redirect $resultRedirect */
-                $resultRedirect = $this->resultRedirectFactory->create();
-                return $resultRedirect->setPath('*/*/');
-            }
+        if (!$post) {
+            $resultRedirect = $this->resultRedirectFactory->create();
+            $resultRedirect->setPath('*');
+
+            return $resultRedirect;
         }
 
-        $this->_coreRegistry->register('cms_block', $model);
+        $data = $this->_session->getData('smart_blog_post_data', true);
+        if (!empty($data)) {
+            $post->setData($data);
+        }
 
-        // 5. Build edit form
-        /** @var \Magento\Backend\Model\View\Result\Page $resultPage */
+        $this->coreRegistry->register('smart_blog_post', $post);
+
+        /** @var \Magento\Backend\Model\View\Result\Page|Page $resultPage */
         $resultPage = $this->resultPageFactory->create();
-        $this->initPage($resultPage)->addBreadcrumb(
-            $id ? __('Edit Block') : __('New Block'),
-            $id ? __('Edit Block') : __('New Block')
-        );
-        $resultPage->getConfig()->getTitle()->prepend(__('Blocks'));
-        $resultPage->getConfig()->getTitle()->prepend($model->getId() ? $model->getTitle() : __('New Block'));
+        $resultPage->setActiveMenu('SmartOSC_Blog::post');
+        $resultPage->getConfig()->getTitle()->set(__('Posts'));
+
+        $title = $post->getId() && !$duplicate ? $post->getName() : __('New Post');
+        $resultPage->getConfig()->getTitle()->prepend($title);
+
         return $resultPage;
     }
 }

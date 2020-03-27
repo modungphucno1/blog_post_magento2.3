@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Nate_Helloworld::helloworld" title="Hello World" module="Nate_Helloworld" sortOrder="51" resource="Nate_Helloworld::helloworld"/>
+        <add id="Nate_Helloworld::post" title="Manage Posts" module="Nate_Helloworld" sortOrder="10" action="nate_helloworld/post" resource="Nate_Helloworld::post" parent="Nate_Helloworld::helloworld"/>
+        <add id="Nate_Helloworld::hello_configuration" title="Configuration" module="Nate_Helloworld" sortOrder="99" parent="Nate_Helloworld::helloworld" action="adminhtml/system_config/edit/section/helloworld" resource="Nate_Helloworld::helloworld_configuration"/>
+    </menu>
+</config>

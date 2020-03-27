@@ -14,7 +14,7 @@
     <settings>
         <buttons>
             <button name="add">
-                <url path="*/*/create"/>
+                <url path="*/*/new"/>
                 <class>primary</class>
                 <label translate="true">Add New Post</label>
             </button>
@@ -101,13 +101,6 @@
                             <param name="status">1</param>
                         </item>
                     </item>
-                    <item name="2" xsi:type="array">
-                        <item name="type" xsi:type="string">disapproved</item>
-                        <item name="label" xsi:type="string" translate="true">Disapproved</item>
-                        <item name="url" xsi:type="url" path="mageplaza_blog/post/massStatus">
-                            <param name="status">2</param>
-                        </item>
-                    </item>
                 </argument>
             </action>
         </massaction>
@@ -146,10 +139,16 @@
                 <sorting>asc</sorting>
             </settings>
         </column>
-        <column name="thumbnail" >
-            <settings>
-                <label translate="true">Thumbnail</label>
-            </settings>
+        <column name="thumbnail" class="SmartOSC\Blog\UI\Component\Listing\Column\Thumbnail">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/thumbnail</item>
+                    <item name="sortable" xsi:type="boolean">false</item>
+                    <item name="altField" xsi:type="string">title</item>
+                    <item name="has_preview" xsi:type="string">1</item>
+                    <item name="label" xsi:type="string" translate="true">Thumbnail</item>
+                </item>
+            </argument>
         </column>
         <column name="name">
             <settings>
